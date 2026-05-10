@@ -41,61 +41,54 @@ export function RegisterForm() {
   };
 
   return (
-    <form className="mt-6 grid gap-3" onSubmit={form.handleSubmit(onSubmit)}>
+    <form className="mt-6 grid gap-4" onSubmit={form.handleSubmit(onSubmit)}>
       <div className="grid gap-3 sm:grid-cols-2">
         <input
           className={cn(
-            "h-10 rounded-md border border-zinc-300 px-3",
-            form.formState.errors.firstName && "border-red-500",
+            "input-field",
+            form.formState.errors.firstName && "input-field-error",
           )}
           placeholder="First name"
           {...form.register("firstName")}
         />
         <input
           className={cn(
-            "h-10 rounded-md border border-zinc-300 px-3",
-            form.formState.errors.lastName && "border-red-500",
+            "input-field",
+            form.formState.errors.lastName && "input-field-error",
           )}
           placeholder="Last name"
           {...form.register("lastName")}
         />
       </div>
       <input
-        className={cn(
-          "h-10 rounded-md border border-zinc-300 px-3",
-          form.formState.errors.email && "border-red-500",
-        )}
+        className={cn("input-field", form.formState.errors.email && "input-field-error")}
         placeholder="Email"
         {...form.register("email")}
       />
       <input
-        className={cn(
-          "h-10 rounded-md border border-zinc-300 px-3",
-          form.formState.errors.username && "border-red-500",
-        )}
+        className={cn("input-field", form.formState.errors.username && "input-field-error")}
         placeholder="Username"
         {...form.register("username")}
       />
       <input
-        className={cn(
-          "h-10 rounded-md border border-zinc-300 px-3",
-          form.formState.errors.password && "border-red-500",
-        )}
+        className={cn("input-field", form.formState.errors.password && "input-field-error")}
         placeholder="Password"
         type="password"
         {...form.register("password")}
       />
       <input
         className={cn(
-          "h-10 rounded-md border border-zinc-300 px-3",
-          form.formState.errors.confirmPassword && "border-red-500",
+          "input-field",
+          form.formState.errors.confirmPassword && "input-field-error",
         )}
         placeholder="Confirm password"
         type="password"
         {...form.register("confirmPassword")}
       />
-      <Button type="submit">Create account</Button>
-      <div className="grid grid-cols-2 gap-2">
+      <Button className="w-full rounded-2xl py-2.5" type="submit">
+        Create account
+      </Button>
+      <div className="grid grid-cols-2 gap-3">
         <Button type="button" variant="secondary" onClick={() => signIn("google")}>
           Google
         </Button>
@@ -103,10 +96,14 @@ export function RegisterForm() {
           Facebook
         </Button>
       </div>
-      {message ? <p className="text-sm text-green-700">{message}</p> : null}
-      <p className="text-sm text-zinc-600">
+      {message ? (
+        <p className="rounded-xl border border-emerald-200/80 bg-emerald-50 px-3 py-2 text-sm text-emerald-800">
+          {message}
+        </p>
+      ) : null}
+      <p className="text-sm text-[var(--muted)]">
         Already have an account?{" "}
-        <Link href="/login" className="font-medium text-black">
+        <Link href="/login" className="font-semibold text-[var(--accent-strong)] hover:underline">
           Sign in
         </Link>
       </p>

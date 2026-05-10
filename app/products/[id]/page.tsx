@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { BadgeCheck, RotateCcw, Star, Truck } from "lucide-react";
+import { BadgeCheck, ChevronRight, RotateCcw, Star, Truck } from "lucide-react";
 import { DummyJsonProductRepository } from "@/core/infrastructure/repositories/dummyjson-repositories";
 import { formatPrice } from "@/lib/utils";
 import { AddToCartPanel } from "@/features/cart/components/add-to-cart-panel";
@@ -35,105 +35,117 @@ export default async function ProductDetailsPage({
   const product = await productRepo.byId(productId);
   const related = await productRepo.relatedByCategory(product.category, 4);
 
+  const surface =
+    "rounded-[1.35rem] border border-[rgb(27_18_38_/0.06)] bg-[var(--surface)] shadow-[var(--shadow-card)]";
+
   return (
-    <main className="mx-auto w-full max-w-7xl space-y-8 px-4 py-8 md:px-6">
-      <nav className="text-sm text-zinc-500">
-        <Link href="/" className="hover:text-zinc-800">
+    <main className="mx-auto w-full max-w-7xl space-y-10 px-4 py-10 md:space-y-14 md:px-6 md:py-11">
+      <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-1.5 text-sm text-[var(--muted)]">
+        <Link href="/" className="font-medium transition hover:text-[var(--brand)]">
           Home
-        </Link>{" "}
-        /{" "}
-        <Link href="/products" className="hover:text-zinc-800">
+        </Link>
+        <ChevronRight size={14} className="text-[var(--border)]" aria-hidden />
+        <Link href="/products" className="font-medium transition hover:text-[var(--brand)]">
           Products
-        </Link>{" "}
-        / <span className="text-zinc-700">{product.title}</span>
+        </Link>
+        <ChevronRight size={14} className="text-[var(--border)]" aria-hidden />
+        <span className="line-clamp-1 max-w-[min(100%,20rem)] font-medium text-[var(--brand)]">{product.title}</span>
       </nav>
 
-      <div className="grid gap-8 md:grid-cols-2">
+      <div className="grid gap-10 md:grid-cols-2 md:gap-12">
         <ProductGallery
           title={product.title}
           thumbnail={product.thumbnail}
           images={product.images}
         />
 
-        <section className="space-y-5 md:sticky md:top-24 md:self-start">
-          <p className="text-sm uppercase tracking-wider text-zinc-500">{product.category}</p>
-          <h1 className="text-3xl font-semibold md:text-4xl">{product.title}</h1>
-          <div className="flex items-center gap-2 text-sm text-zinc-600">
-            <Star size={14} className="fill-current text-[#B08D57]" />
-            <span>{product.rating.toFixed(1)} rating</span>
-            <span>•</span>
+        <section className="space-y-6 md:sticky md:top-[5.5rem] md:self-start">
+          <div>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--accent-strong)]">{product.category}</p>
+            <h1 className="mt-2 text-[2rem] font-semibold tracking-tight text-[var(--brand)] md:text-[2.5rem]">
+              {product.title}
+            </h1>
+          </div>
+          <div className="flex flex-wrap items-center gap-2 text-sm text-[var(--muted)]">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-[var(--accent-soft)] px-3 py-1 font-semibold text-[var(--accent-strong)]">
+              <Star size={14} className="fill-[var(--highlight)] text-[var(--highlight)]" />
+              {product.rating.toFixed(1)} rating
+            </span>
+            <span className="text-[var(--border)]">•</span>
             <span>{product.reviews?.length ?? 0} reviews</span>
           </div>
-          <p className="text-zinc-600">{product.description}</p>
-          <p className="text-3xl font-semibold">{formatPrice(product.price)}</p>
+          <p className="text-[15px] leading-relaxed text-[var(--muted)]">{product.description}</p>
+          <p className="font-semibold tracking-tight text-[2rem] tabular-nums text-[var(--foreground)]">{formatPrice(product.price)}</p>
 
-          <div className="grid gap-2 rounded-xl border border-zinc-200 bg-white p-4 text-sm">
-            <p className="inline-flex items-center gap-2 text-zinc-700">
-              <Truck size={14} className="text-[#B08D57]" />
+          <div className={`${surface} grid gap-4 p-5 text-sm shadow-[var(--shadow-xs)]`}>
+            <p className="inline-flex items-center gap-2.5 font-medium text-[var(--foreground)]">
+              <Truck size={16} strokeWidth={2} className="text-[var(--accent-strong)]" />
               {product.shippingInformation ?? "Fast shipping available"}
             </p>
-            <p className="inline-flex items-center gap-2 text-zinc-700">
-              <RotateCcw size={14} className="text-[#B08D57]" />
+            <p className="inline-flex items-center gap-2.5 font-medium text-[var(--foreground)]">
+              <RotateCcw size={16} strokeWidth={2} className="text-[var(--accent-strong)]" />
               {product.returnPolicy ?? "30 days return policy"}
             </p>
-            <p className="inline-flex items-center gap-2 text-zinc-700">
-              <BadgeCheck size={14} className="text-[#B08D57]" />
+            <p className="inline-flex items-center gap-2.5 font-medium text-[var(--foreground)]">
+              <BadgeCheck size={16} strokeWidth={2} className="text-[var(--accent-strong)]" />
               {product.warrantyInformation ?? "Standard warranty included"}
             </p>
           </div>
 
-          <div className="rounded-xl border border-zinc-200 bg-white p-4">
+          <div className={`${surface} p-5`}>
             <AddToCartPanel product={product} />
           </div>
         </section>
       </div>
 
-      <section className="grid gap-8 md:grid-cols-[1.5fr_1fr]">
-        <div className="space-y-4 rounded-2xl border border-zinc-200 bg-white p-6">
-          <h2 className="text-xl font-semibold">Specifications</h2>
-          <dl className="grid grid-cols-2 gap-3 text-sm">
-            <div>
-              <dt className="text-zinc-500">Brand</dt>
-              <dd className="font-medium">{product.brand ?? "Verina Select"}</dd>
+      <section className="grid gap-8 md:grid-cols-[1.5fr_1fr] md:gap-10">
+        <div className={`${surface} space-y-6 p-6 md:p-8`}>
+          <h2 className="text-xl font-semibold tracking-tight text-[var(--brand)]">Specifications</h2>
+          <dl className="grid grid-cols-2 gap-5 text-[15px]">
+            <div className="space-y-1">
+              <dt className="text-sm text-[var(--muted)]">Brand</dt>
+              <dd className="font-semibold text-[var(--foreground)]">{product.brand ?? "Verina Select"}</dd>
             </div>
-            <div>
-              <dt className="text-zinc-500">SKU</dt>
-              <dd className="font-medium">{product.sku ?? "N/A"}</dd>
+            <div className="space-y-1">
+              <dt className="text-sm text-[var(--muted)]">SKU</dt>
+              <dd className="font-semibold text-[var(--foreground)]">{product.sku ?? "N/A"}</dd>
             </div>
-            <div>
-              <dt className="text-zinc-500">Category</dt>
-              <dd className="font-medium">{product.category}</dd>
+            <div className="space-y-1">
+              <dt className="text-sm text-[var(--muted)]">Category</dt>
+              <dd className="font-semibold text-[var(--foreground)]">{product.category}</dd>
             </div>
-            <div>
-              <dt className="text-zinc-500">Availability</dt>
-              <dd className="font-medium">{product.stock > 0 ? "In stock" : "Out of stock"}</dd>
+            <div className="space-y-1">
+              <dt className="text-sm text-[var(--muted)]">Availability</dt>
+              <dd className="font-semibold text-[var(--foreground)]">{product.stock > 0 ? "In stock" : "Out of stock"}</dd>
             </div>
           </dl>
         </div>
 
-        <div className="space-y-4 rounded-2xl border border-zinc-200 bg-white p-6">
-          <h2 className="text-xl font-semibold">Customer reviews</h2>
-          <div className="space-y-3">
+        <div className={`${surface} space-y-6 p-6 md:p-8`}>
+          <h2 className="text-xl font-semibold tracking-tight text-[var(--brand)]">Customer reviews</h2>
+          <div className="space-y-4">
             {(product.reviews ?? []).slice(0, 3).map((review) => (
-              <article key={`${review.reviewerEmail}-${review.date}`} className="rounded-lg border border-zinc-200 p-3">
-                <p className="text-xs text-zinc-500">{review.reviewerName}</p>
-                <p className="mt-1 inline-flex items-center gap-1 text-xs text-[#8C6E42]">
-                  <Star size={12} className="fill-current" />
+              <article key={`${review.reviewerEmail}-${review.date}`} className="rounded-xl border border-[rgb(27_18_38_/0.06)] bg-[var(--surface-muted)] p-4 shadow-[var(--shadow-xs)]">
+                <p className="text-xs font-medium text-[var(--muted)]">{review.reviewerName}</p>
+                <p className="mt-1 inline-flex items-center gap-1 text-xs font-semibold text-[var(--highlight)]">
+                  <Star size={12} className="fill-[var(--highlight)]" />
                   {review.rating}/5
                 </p>
-                <p className="mt-1 text-sm text-zinc-700">{review.comment}</p>
+                <p className="mt-2 text-[15px] leading-relaxed text-[var(--foreground)]">{review.comment}</p>
               </article>
             ))}
             {!(product.reviews?.length ?? 0) ? (
-              <p className="text-sm text-zinc-600">No reviews yet.</p>
+              <p className="text-sm text-[var(--muted)]">No reviews yet.</p>
             ) : null}
           </div>
         </div>
       </section>
 
-      <section className="space-y-3">
-        <h2 className="text-2xl font-semibold">Related products</h2>
-        <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+      <section className="space-y-5">
+        <h2 className="text-[1.75rem] font-semibold tracking-tight text-[var(--brand)] md:text-[2rem]">
+          Related products
+        </h2>
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-5">
           {related.products
             .filter((item) => item.id !== product.id)
             .slice(0, 4)
@@ -141,13 +153,13 @@ export default async function ProductDetailsPage({
               <Link
                 key={item.id}
                 href={`/products/${item.id}`}
-                className="rounded-xl border border-zinc-200 bg-white p-3 transition hover:-translate-y-0.5 hover:shadow-md"
+                className="group rounded-[1.15rem] border border-[rgb(27_18_38_/0.06)] bg-[var(--surface)] p-3 shadow-[var(--shadow-xs)] ring-1 ring-transparent transition hover:-translate-y-1 hover:shadow-[var(--shadow-card-hover)] hover:ring-[rgb(225_29_116_/0.1)]"
               >
-                <div className="relative aspect-square overflow-hidden rounded-md bg-zinc-100">
-                  <Image src={item.thumbnail} alt={item.title} fill className="object-cover" />
+                <div className="relative aspect-square overflow-hidden rounded-xl bg-linear-to-br from-[#fdf6fb] to-[#ebe2f3]">
+                  <Image src={item.thumbnail} alt={item.title} fill className="object-cover transition duration-[0.95s] group-hover:scale-[1.04]" />
                 </div>
-                <p className="mt-2 line-clamp-1 text-sm font-medium">{item.title}</p>
-                <p className="text-sm text-zinc-600">{formatPrice(item.price)}</p>
+                <p className="mt-3 line-clamp-1 font-semibold tracking-tight text-[var(--brand)]">{item.title}</p>
+                <p className="mt-1 text-[15px] font-medium tabular-nums text-[var(--muted)]">{formatPrice(item.price)}</p>
               </Link>
             ))}
         </div>

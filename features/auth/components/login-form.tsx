@@ -42,16 +42,16 @@ export function LoginForm() {
     });
 
   return (
-    <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
-      <div className="space-y-1">
-        <label className="text-sm font-medium" htmlFor="username">
+    <form className="space-y-5" onSubmit={form.handleSubmit(onSubmit)}>
+      <div className="space-y-1.5">
+        <label className="text-sm font-medium text-[var(--brand)]" htmlFor="username">
           Username
         </label>
         <input
           id="username"
           className={cn(
-            "h-10 w-full rounded-md border border-zinc-300 px-3",
-            form.formState.errors.username && "border-red-500",
+            "input-field",
+            form.formState.errors.username && "input-field-error",
           )}
           {...form.register("username")}
         />
@@ -59,16 +59,16 @@ export function LoginForm() {
           <p className="text-xs text-red-600">{form.formState.errors.username.message}</p>
         ) : null}
       </div>
-      <div className="space-y-1">
-        <label className="text-sm font-medium" htmlFor="password">
+      <div className="space-y-1.5">
+        <label className="text-sm font-medium text-[var(--brand)]" htmlFor="password">
           Password
         </label>
         <input
           id="password"
           type="password"
           className={cn(
-            "h-10 w-full rounded-md border border-zinc-300 px-3",
-            form.formState.errors.password && "border-red-500",
+            "input-field",
+            form.formState.errors.password && "input-field-error",
           )}
           {...form.register("password")}
         />
@@ -81,10 +81,10 @@ export function LoginForm() {
         <p className="text-xs text-red-600">{form.formState.errors.root.message}</p>
       ) : null}
 
-      <Button className="w-full" type="submit" disabled={pending}>
+      <Button className="w-full rounded-2xl py-2.5" type="submit" disabled={pending}>
         {pending ? "Signing in..." : "Sign in"}
       </Button>
-      <div className="grid grid-cols-2 gap-2">
+      <div className="grid grid-cols-2 gap-3">
         <Button type="button" variant="secondary" onClick={() => signIn("google")}>
           Google
         </Button>

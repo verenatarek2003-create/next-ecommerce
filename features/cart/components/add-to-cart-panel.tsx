@@ -14,7 +14,7 @@ export function AddToCartPanel({ product }: { product: Product }) {
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between">
-        <p className="text-sm font-medium">Quantity</p>
+        <p className="text-sm font-medium text-[var(--brand)]">Quantity</p>
         <div className="flex items-center gap-2">
           <Button
             type="button"
@@ -22,7 +22,7 @@ export function AddToCartPanel({ product }: { product: Product }) {
             size="sm"
             onClick={() => setQuantity((prev) => Math.max(1, prev - 1))}
           >
-            <Minus size={14} />
+            <Minus size={14} strokeWidth={2} />
           </Button>
           <span className="w-8 text-center text-sm font-semibold">{quantity}</span>
           <Button
@@ -31,7 +31,7 @@ export function AddToCartPanel({ product }: { product: Product }) {
             size="sm"
             onClick={() => setQuantity((prev) => Math.min(product.stock || 99, prev + 1))}
           >
-            <Plus size={14} />
+            <Plus size={14} strokeWidth={2} />
           </Button>
         </div>
       </div>
@@ -47,10 +47,10 @@ export function AddToCartPanel({ product }: { product: Product }) {
           });
         }}
       >
-        <ShoppingCart size={15} />
+        <ShoppingCart size={15} strokeWidth={2} />
         Add to cart
       </Button>
-      <p className="text-xs text-zinc-500">Stock: {product.stock} items available</p>
+      <p className="text-xs text-[var(--muted)]">{product.stock} items available in stock</p>
     </div>
   );
 }

@@ -1,11 +1,8 @@
 import { withAuth } from "next-auth/middleware";
-import { env } from "@/config/env";
+import { resolvedAuthSecret } from "@/config/env";
 
-const authSecret =
-  env.NEXTAUTH_SECRET ?? env.AUTH_SECRET ?? "dev-only-change-this-secret";
-
-export default withAuth({
-  secret: authSecret,
+export const proxy = withAuth({
+  secret: resolvedAuthSecret,
   pages: {
     signIn: "/login",
   },

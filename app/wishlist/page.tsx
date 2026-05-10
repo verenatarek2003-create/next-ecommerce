@@ -23,15 +23,22 @@ export default function WishlistPage() {
   });
 
   return (
-    <main className="mx-auto w-full max-w-7xl space-y-6 px-4 py-8">
-      <h1 className="inline-flex items-center gap-2 text-3xl font-semibold">
-        <Heart />
-        Wishlist
-      </h1>
+    <main className="mx-auto w-full max-w-7xl space-y-8 px-4 py-11 md:px-6 md:py-12">
+      <div className="space-y-2">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--accent-strong)]">Saved</p>
+        <h1 className="inline-flex items-center gap-3 text-[2rem] font-semibold tracking-tight text-[var(--brand)] md:text-[2.25rem]">
+          <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-[var(--accent-soft)] shadow-[var(--shadow-xs)] ring-1 ring-[rgb(225_29_116_/0.1)]">
+            <Heart size={22} strokeWidth={2} className="text-[var(--accent-strong)]" />
+          </span>
+          Wishlist
+        </h1>
+      </div>
       {!wishlistIds.length ? (
-        <p className="text-zinc-600">Your wishlist is empty.</p>
+        <p className="rounded-[1.25rem] border border-dashed border-[rgb(27_18_38_/0.14)] bg-[var(--surface)] px-6 py-10 text-center text-[15px] text-[var(--muted)]">
+          Your wishlist is empty — tap the heart on a product card to save it here.
+        </p>
       ) : (
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-4">
+        <div className="grid grid-cols-2 gap-5 md:grid-cols-3 xl:grid-cols-4">
           {query.data?.map((product) => (
             <ProductCard key={product.id} product={product} onAddToCart={add} />
           ))}

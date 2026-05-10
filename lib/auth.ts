@@ -5,11 +5,8 @@ import Google from "next-auth/providers/google";
 import Facebook from "next-auth/providers/facebook";
 import { z } from "zod";
 import { axiosClient } from "@/core/infrastructure/http/axios-client";
-import { env } from "@/config/env";
+import { env, resolvedAuthSecret } from "@/config/env";
 import type { AuthUserResponse } from "@/types/api";
-
-const authSecret =
-  env.NEXTAUTH_SECRET ?? env.AUTH_SECRET ?? "dev-only-change-this-secret";
 
 const credentialsSchema = z.object({
   username: z.string().min(1),
@@ -94,7 +91,7 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
   },
-  secret: authSecret,
+  secret: resolvedAuthSecret,
 };
 
 export const auth = () => getServerSession(authOptions);

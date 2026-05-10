@@ -43,19 +43,15 @@ export function ProductGridClient({
   const products = query.data?.products ?? [];
 
   return (
-    <section className="space-y-6">
-      <div className="grid gap-3 md:grid-cols-[1fr_auto_auto]">
+    <section className="space-y-8">
+      <div className="grid gap-3 md:grid-cols-[minmax(0,1fr)_9.5rem_7.75rem]">
         <input
           placeholder="Search products..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="h-10 rounded-md border border-zinc-300 px-3"
+          className="input-field md:col-span-1"
         />
-        <select
-          value={sortBy}
-          onChange={(e) => setSortBy(e.target.value)}
-          className="h-10 rounded-md border border-zinc-300 px-3"
-        >
+        <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="input-field w-full md:w-auto">
           <option value="title">Title</option>
           <option value="price">Price</option>
           <option value="rating">Rating</option>
@@ -63,7 +59,7 @@ export function ProductGridClient({
         <select
           value={order}
           onChange={(e) => setOrder(e.target.value as "asc" | "desc")}
-          className="h-10 rounded-md border border-zinc-300 px-3"
+          className="input-field w-full md:w-auto"
         >
           <option value="asc">Asc</option>
           <option value="desc">Desc</option>
@@ -71,13 +67,16 @@ export function ProductGridClient({
       </div>
 
       {query.isLoading ? (
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-4">
+        <div className="grid grid-cols-2 gap-5 md:grid-cols-3 xl:grid-cols-4">
           {Array.from({ length: 8 }).map((_, idx) => (
-            <div key={idx} className="h-72 animate-pulse rounded-xl bg-zinc-100" />
+            <div
+              key={idx}
+              className="aspect-[7/11] animate-pulse rounded-[1.25rem] bg-linear-to-br from-[#fdf6fb] to-[#eae2ef] shadow-inner ring-1 ring-[rgb(27_18_38_/0.05)]"
+            />
           ))}
         </div>
       ) : (
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-4">
+        <div className="grid grid-cols-2 gap-5 md:grid-cols-3 xl:grid-cols-4">
           {products.map((product: Product) => (
             <ProductCard
               key={product.id}

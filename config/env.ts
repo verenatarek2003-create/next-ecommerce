@@ -23,3 +23,7 @@ export const env = envSchema.parse({
   AUTH_FACEBOOK_ID: process.env.AUTH_FACEBOOK_ID,
   AUTH_FACEBOOK_SECRET: process.env.AUTH_FACEBOOK_SECRET,
 });
+
+/** NextAuth signing secret (route + proxy). Fallback is dev-only — set NEXTAUTH_SECRET or AUTH_SECRET in production. */
+export const resolvedAuthSecret =
+  env.NEXTAUTH_SECRET ?? env.AUTH_SECRET ?? "dev-only-change-this-secret";

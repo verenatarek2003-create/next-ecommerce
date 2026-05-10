@@ -9,10 +9,10 @@ export function SignOutButton() {
   return (
     <Button
       variant="secondary"
-      className="gap-2"
+      className="gap-2 rounded-2xl px-6"
       onClick={() => signOut({ callbackUrl: ROUTES.home })}
     >
-      <LogOut size={14} />
+      <LogOut size={14} strokeWidth={2} />
       Sign out
     </Button>
   );
